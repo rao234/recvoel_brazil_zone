@@ -1,1 +1,116 @@
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<title>Recvoel Brazil Zone - All India Models</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body { background: #0a0a0a; color: #fff; font-family: sans-serif; text-align: center; margin:0; }
+header { background: linear-gradient(90deg, #ff0000, #440000); padding: 25px; font-size: 24px; font-weight: bold; border-bottom: 2px solid #ff0000; }
+input { width: 85%; padding: 15px; border-radius: 10px; border: 1px solid #ff0000; background: #1a1a1a; color: #fff; margin-top: 20px; }
+.btn { background: #ff0000; color: #fff; padding: 12px 25px; border: none; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer; }
+.results { display: none; width: 90%; margin: 20px auto; background: #111; border: 1px dashed #ff0000; border-radius: 15px; padding: 15px; }
+.s-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.s-card { background: #222; padding: 10px; border-radius: 8px; text-align: left; }
+.s-val { float: right; color: #00ffcc; font-weight: bold; }
+.fire-btn { background: red; width: 100%; padding: 18px; border-radius: 50px; border: none; color: #fff; font-size: 20px; font-weight: bold; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<header>🇧🇷 RECVOEL BRAZIL ZONE 🇧🇷</header>
+
+<input type="text" id="pSearch" placeholder="Apne Phone ka Naam Likhein (e.g. Redmi 9)...">
+<br>
+<button class="btn" onclick="getSensi()">GENERATE SENSI</button>
+
+<div class="results" id="res">
+  <div id="pTitle" style="color:#ffcc00; font-size:20px; margin-bottom:10px;"></div>
+  <div class="s-grid">
+    <div class="s-card">General <span class="s-val" id="v1">0</span></div>
+    <div class="s-card">Red Dot <span class="s-val" id="v2">0</span></div>
+    <div class="s-card">2x Scope <span class="s-val" id="v3">0</span></div>
+    <div class="s-card">4x Scope <span class="s-val" id="v4">0</span></div>
+    <div class="s-card">Sniper <span class="s-val" id="v5">0</span></div>
+    <div class="s-card">DPI <span class="s-val" id="v6">0</span></div>
+  </div>
+  <button class="fire-btn">🔥 FIRE BUTTON 🔥</button>
+</div>
+
+<script>
+const database = [
+
+ // REDMI
+ {n:"Redmi 9", g:185,r:190,t:170,f:160,s:100,d:"411"},
+ {n:"Redmi 10", g:190,r:195,t:180,f:170,s:110,d:"480"},
+ {n:"Redmi 11 Prime", g:192,r:194,t:182,f:175,s:115,d:"500"},
+ {n:"Redmi 12 5G", g:195,r:196,t:185,f:180,s:120,d:"520"},
+ {n:"Redmi Note 10", g:190,r:194,t:180,f:170,s:108,d:"460"},
+ {n:"Redmi Note 11", g:192,r:195,t:185,f:175,s:112,d:"500"},
+ {n:"Redmi Note 12", g:195,r:196,t:188,f:180,s:118,d:"540"},
+ {n:"Redmi Note 13 Pro", g:200,r:198,t:192,f:185,s:125,d:"580"},
+
+ // VIVO
+ {n:"Vivo Y12", g:180,r:185,t:170,f:160,s:90,d:"390"},
+ {n:"Vivo Y20", g:184,r:188,t:175,f:165,s:95,d:"411"},
+ {n:"Vivo Y21", g:186,r:190,t:178,f:168,s:100,d:"450"},
+ {n:"Vivo T1", g:190,r:192,t:182,f:175,s:110,d:"500"},
+ {n:"Vivo V27", g:198,r:195,t:190,f:185,s:120,d:"560"},
+
+ // SAMSUNG
+ {n:"Samsung A03", g:175,r:180,t:165,f:155,s:85,d:"360"},
+ {n:"Samsung A12", g:182,r:185,t:170,f:160,s:95,d:"390"},
+ {n:"Samsung M13", g:185,r:188,t:175,f:165,s:100,d:"411"},
+ {n:"Samsung F23", g:190,r:192,t:180,f:172,s:110,d:"450"},
+
+ // POCO
+ {n:"Poco M3", g:186,r:190,t:175,f:165,s:100,d:"420"},
+ {n:"Poco M4 Pro", g:190,r:194,t:180,f:170,s:110,d:"480"},
+ {n:"Poco X3 Pro", g:198,r:200,t:190,f:185,s:120,d:"560"},
+ {n:"Poco X6 Pro", g:200,r:200,t:195,f:190,s:130,d:"620"},
+
+ // NOTHING PHONES
+ {n:"Nothing Phone 1", g:195,r:195,t:188,f:180,s:120,d:"520"},
+ {n:"Nothing Phone 2", g:198,r:198,t:190,f:185,s:125,d:"560"},
+ {n:"Nothing Phone 2a", g:194,r:192,t:185,f:178,s:118,d:"520"},
+ {n:"Nothing Phone 2a Plus", g:196,r:194,t:188,f:180,s:120,d:"540"},
+ {n:"Nothing Phone 3", g:200,r:200,t:195,f:190,s:130,d:"580"},
+
+ // IPHONE X → 17
+ {n:"iPhone X", g:195,r:195,t:190,f:185,s:120,d:"Default"},
+ {n:"iPhone XR", g:195,r:195,t:190,f:185,s:120,d:"Default"},
+ {n:"iPhone XS", g:195,r:195,t:190,f:185,s:120,d:"Default"},
+ {n:"iPhone 11", g:198,r:198,t:190,f:185,s:125,d:"Default"},
+ {n:"iPhone 12", g:200,r:200,t:195,f:190,s:130,d:"Default"},
+ {n:"iPhone 13", g:200,r:200,t:195,f:190,s:130,d:"Default"},
+ {n:"iPhone 14", g:200,r:200,t:195,f:190,s:130,d:"Default"},
+ {n:"iPhone 15", g:200,r:200,t:195,f:190,s:130,d:"Default"},
+ {n:"iPhone 16", g:200,r:200,t:195,f:190,s:130,d:"Default"},
+ {n:"iPhone 17", g:200,r:200,t:195,f:190,s:130,d:"Default"}
+
+];
+
+function getSensi() {
+ const input = document.getElementById("pSearch").value.toLowerCase();
+ const res = database.find(d => d.n.toLowerCase().includes(input));
+ const box = document.getElementById("res");
+
+ if(res && input !== "") {
+   box.style.display="block";
+   document.getElementById("pTitle").innerText=res.n+" Settings";
+   document.getElementById("v1").innerText=res.g;
+   document.getElementById("v2").innerText=res.r;
+   document.getElementById("v3").innerText=res.t;
+   document.getElementById("v4").innerText=res.f;
+   document.getElementById("v5").innerText=res.s;
+   document.getElementById("v6").innerText=res.d;
+ } else {
+   alert("Model nahi mila! Example: Redmi 9, iPhone 13, Nothing Phone 2");
+ }
+}
+</script>
+
+</body>
+</html>
+```
 
